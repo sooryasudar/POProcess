@@ -1,0 +1,703 @@
+<div class="content-wrapper">
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <h4 class="page-title">PO Requirement</h4>
+                        </li>
+                        <li class="breadcrumb-item bcrumb-1">
+                            <a href="../../Dashboard">
+                                <i class="fa fa-home"></i> Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">PO Requirement</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row clearfix">
+            <div class="col-12">
+
+               
+
+                <div class="card">
+                    <form #myform="ngForm">
+                     
+                            <!-- header -->
+                            <h4 class="header d-flex justify-content-between">
+                    
+                                {{cardTitle}}
+                                <div class="text-right">
+                                    <button type="button" class="btn btn-raised btn-info btn-min-width mr-1 mb-1" [hidden]="boolPoreqList"
+                                        (click)="list();"><i class="ft-package"></i>
+                                        List</button>
+                    
+                                    <button type="button" class="btn btn-raised btn-info btn-min-width mr-1 mb-1"
+                                        [hidden]="!boolPoreqList" (click)="backlist();"><i class="ft-package"></i>
+                                        Create</button>
+                    
+                                </div>
+                            
+                            </h4>
+                            <!-- header end -->
+                            <div class="body">
+                                <div [hidden]="boolPoreqList">
+                                        <a data-toggle="collapse" data-parent="#accordionEx" href="#collapsePorequirementInfo" aria-expanded="true"
+                                        aria-controls="collapsePorequirementInfo">
+                                        <h6 class="form-section mt-3 text-primary mb-2 p-2 bg-light">
+                                                <i class="ft-info"></i> Requirement Header 
+                                        </h6>
+                                </a>
+                                <div id="collapsePorequirementInfo" class="collapse show" role="tabpanel">
+                                    <div class="row">         
+                                        <div class="form-group col-md-4 mb-2">
+                                            <label for="userinput2">PRF No</label>
+                                            <div class="input-group">                                            
+                                                <input type="text" class="form-control pull-right" disabled [(ngModel)]="objporeq.prf_number" id="prfnumber" name="prfnumber">
+                                              </div>
+                                             
+                                        </div>           
+                                        <div class="form-group col-md-4 mb-2">
+                                            <label for="userinput2">Requirement Date</label>
+                                            <div class="input-group date">
+                                            
+                                                <input type="date" class="form-control pull-right" [(ngModel)]="objporeq.requirement_date" id="datepicker" name="datepicker" 
+                                                required="required" tabindex="1" data-validation-required-message="This Requirement Details required">
+                                              </div>
+                                             
+                                        </div>
+                                        <div class="form-group col-md-4 mb-2">                            
+                                            <label for="userinput1">Department
+                                            </label>
+                                            <select class="custom-select form-control" [(ngModel)]="objporeq.department" id="department" name="department"
+                                            required="required" tabindex="2" data-validation-required-message="This department required">
+                                                <option value="">Select Department</option>
+                                                <option value="Finance">Finance</option>
+                                                <option value="Admin">Admin</option>
+                                                <option value="Logistics">Logistics</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4 mb-2">                            
+                                            <label for="userinput1">Reporting Manager</label>
+                                            <input type="text" [(ngModel)]="objporeq.reporting_manager" disabled
+                                            name="reportingmanager"
+                                             id="reportingmanager" tabindex="6" class="form-control form-control-sm">
+                                        </div>
+                                        <div class="form-group col-md-4 mb-2">                            
+                                            <label for="userinput1">Purpose
+                                            </label>
+                                             <input type="text" [(ngModel)]="objporeq.purpose"
+                                               name="purpose"
+                                                id="purpose" tabindex="3" class="form-control form-control-sm" required="required"
+                                                data-validation-required-message="This Purpose is required">
+                                        </div>
+                                        <div class="form-group col-md-4 mb-2">                            
+                                            <label for="userinput1">Purchase Category </label>
+                                            <select class="custom-select form-control" [(ngModel)]="objporeq.purchase_catagory" id="purchasecategory" name="purchasecategory"
+                                            required="required" tabindex="4" data-validation-required-message="This Purchase Category required">
+                                                <option value="">Select Purchase Category</option>
+                                                <option value="Regular">Regular</option>
+                                                <option value="Special">Special</option>
+                                                <option value="Recuring">Recuring</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4 mb-2">                            
+                                            <label for="userinput1">Type of Purchase </label>
+                                            <select class="custom-select form-control" [(ngModel)]="objporeq.purchase_type" id="typeofpurchase" name="typeofpurchase"
+                                            required="required" tabindex="5" data-validation-required-message="This Type of Purchase required">
+                                                <option value="">Select Type of Purchase</option>
+                                                <option value="Opex">Opex</option>
+                                                <option value="Copex">Copex</option>
+                                                <option value="Online">Online</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4 mb-2">                            
+                                            <label for="userinput1">Location</label>
+                                            <select class="custom-select form-control" [(ngModel)]="objporeq.location" (change)="locationchange(objporeq.location)" name="location"
+                                             id="location" tabindex="6" class="form-control form-control-sm" required="required"
+                                             data-validation-required-message="This Location is required">
+                                                 <option value="">Select Location</option>
+                                                 <option *ngFor="let location of locationlist" [value]="location.location">{{location.location}}</option>
+
+                                                
+                                             </select>
+                                        </div>
+                                        <div class="form-group col-md-4 mb-2">                            
+                                            <label for="userinput1">Budgeted
+                                            </label>
+                                            <select class="custom-select form-control" [(ngModel)]="objporeq.is_budgeted" id="budgeted" name="budgeted"
+                                            required="required" tabindex="2" data-validation-required-message="This budgeted required">
+                                                <option value="">Select </option>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                                
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4 mb-2">
+                                            <label for="userinput2">Date of Delivery Expected</label>
+                                            <div class="input-group date">
+                                            
+                                                <input type="text" class="form-control pull-right" [(ngModel)]="objporeq.date_of_delivery_expected" id="deliveryexpecteddate" name="deliveryexpecteddate" 
+                                                required="required" tabindex="1" data-validation-required-message="This Date of Delivery Expected is required">
+                                              </div>
+                                             
+                                        </div>
+                                        <div class="form-group col-md-4 mb-2">                            
+                                            <label for="userinput1">Delivery Address </label>
+                                            <textarea class="form-control bg-transparent" [(ngModel)]="objporeq.delivery_address"
+                                            name="deliveryaddress" id="deliveryaddress" tabindex="7" maxlength="1000"></textarea>                                         
+                                        </div>
+                                     
+                                        <div class="form-group col-md-4 mb-2">
+                                            <label for="userinput2">PaymentTerm</label>
+                                            <div class="input-group">                                            
+                                                <input type="text" class="form-control pull-right" [(ngModel)]="objporeq.payment_term" id="paymentterm" name="paymentterm">
+                                              </div>
+                                             
+                                        </div>
+                                        <div class="form-group col-md-12 mb-2">                            
+                                            <label for="userinput1">perceived Benefits  </label>
+                                            <textarea class="form-control bg-transparent" [(ngModel)]="objporeq.perceived_benefits"
+                                            name="receivedbenefit" id="receivedbenefit" tabindex="8" maxlength="1200"></textarea>                                         
+                                        </div>
+                                      
+                                    </div>                      
+                                </div>
+
+                                <a data-toggle="collapse" data-parent="#accordionEx" href="#collapsePorequirementtabInfo" aria-expanded="true"
+                                aria-controls="collapsePorequirementtabInfo">
+                                <h6 class="form-section mt-3 text-primary mb-2 p-2 bg-light">
+                                        <i class="ft-info"></i> Requirement Info 
+                                </h6>
+                                </a>
+                                
+                                <div id="collapsePorequirementtabInfo" class="collapse position-relative" role="tabpanel">
+                                        <div class="row m-0" style="overflow:scroll;">
+                                                <table class="table table-xs table-hover table-bordered nowrap width-per-100 no-footer dataTable">
+                                                        <thead>
+                                                                <tr class="bg-light-gray2">
+                                                                        <th>
+                                                                                Material/Service Name
+                                                                        </th>
+                                                                        <th class="th-sm">
+                                                                                Description
+                                                                        </th>
+                                                                        <th class="th-sm">
+                                                                            Budget Category
+                                                                    </th>
+                                                                        <th class="th-sm">
+                                                                                Quantity
+                                                                        </th>
+                                                                        <th class="th-sm">
+                                                                                Approx Unit Value
+                                                                        </th>
+                                                                        <th class="th-sm">
+                                                                                Approx Total Value
+                                                                        </th>
+                                                                       
+                                                                        <th class="th-sm"  style="text-align: center;">
+                                                                                Action
+                                                                        </th>
+                                                                </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                                <tr
+                                                                        *ngFor="let cost of porequirmentDetails; let i = index">
+                                                                        <td>                                                                              
+                                                                                
+                                                                                        <input [(ngModel)]="cost.material_name" class="form-table"
+                                                                                         type="text" name="materialname_{{i}}" />
+                                                                        </td>
+                                                                        <td>
+                                                                           
+                                                                                    <input [(ngModel)]="cost.line_description" class="form-table"
+                                                                                     type="text" name="description_{{i}}" />
+                                                                              
+                                                                        </td>
+                                                                        <td>
+                                                                           
+                                                                            <select class="custom-select form-control" [(ngModel)]="cost.budget_category" id="budgetcategory_{{i}}" name="budgetcategory_{{i}}"
+                                                                            required="required" tabindex="5" data-validation-required-message="This Budget Category required">
+                                                                                <option value="">Select category</option>
+                                                                                <option value="Opex">Opex</option>
+                                                                                <option value="Copex">Copex</option>
+                                                                                <option value="Online">Online</option>
+                                                                            </select>
+                                                                      
+                                                                       </td>
+                                                                        <td>
+                                                                                <input [(ngModel)]="cost.quantity"
+                                                                                class="form-table" type="text" name="quantity_{{i}}" autocomplete="off" />
+                                                                        </td>
+                                                                        <td>    
+                                                                                <input [(ngModel)]="cost.unit_value" (keypress)="onlyDecimalNumberKey($event)"
+                                                                                        class="form-table"   type="text" name="approxunitvalue_{{i}}" />
+                                                                              
+                                                                        </td>
+
+                                                                        <td>
+                                                                                <input [(ngModel)]="cost.total_value" class="form-table" (keypress)="onlyDecimalNumberKey($event)" type="text" name="approxtotalvalue_{{i}}"/>
+                                                                        </td>
+                                                                        <td  style="text-align: center;">
+                                                                                <button class="btn btn-raised btn-outline-danger ml-2" 
+                                                                                        (click)="deleteFieldValue(i)">
+                                                                                        <i class="fa fa-trash"></i>
+                                                                                </button>
+
+                                                                        </td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td>
+                                                                            
+                                                                                    <input [(ngModel)]="newporequirment.material_name" class="form-table"
+                                                                                    type="text" name="materialname"/>
+                                                                           
+                                                                        </td>
+                                                                        <td>
+                                                                               
+                                                                                        <input [(ngModel)]="newporequirment.line_description" class="form-table"
+                                                                                        type="text" name="description"/>
+                                                                                 
+                                                                        </td>
+                                                                        <td>
+                                                                           
+                                                                            <select class="custom-select form-control" [(ngModel)]="newporequirment.budget_category" id="budgetcategory" name="budgetcategory"
+                                                                            required="required" tabindex="5" data-validation-required-message="This Budget Category required">
+                                                                                <option value="">Select category</option>
+                                                                                <option value="Opex">Opex</option>
+                                                                                <option value="Copex">Copex</option>
+                                                                                <option value="Online">Online</option>
+                                                                            </select>
+                                                                      
+                                                                       </td>
+                                                                        <td>
+                                                                                <input [(ngModel)]="newporequirment.quantity"
+                                                                                class="form-table" type="text" name="quantity" autocomplete="off" />
+                                                               
+                                                                        </td>
+
+                                                                        <td >
+                                                                               
+                                                                                        <input [(ngModel)]="newporequirment.unit_value" (change)="totalquotation()" (keypress)="onlyDecimalNumberKey($event)"
+                                                                                        class="form-table"  type="text" name="approxunitvalue"/>
+                                                                                                                                                                
+                                                                        </td>
+                                                                        <td>
+                                                                                <input [(ngModel)]="newporequirment.total_value" class="form-table" (keypress)="onlyDecimalNumberKey($event)" type="text" name="approxtotalvalue"/>
+                                                                        </td>
+                                                                        <td style="text-align: center;">
+                                                                                <button class="btn btn-raised btn-sm btn-outline-info ml-2"
+                                                                                        (click)="addFieldValue()">
+                                                                                        <i class="fa fa-plus"></i>
+                                                                                </button>
+                                                                                <button class="btn btn-raised btn-sm btn-outline-default ml-2"
+                                                                                        title="Clear Data"
+                                                                                        (click)="clearporequirementFields()">
+                                                                                        <i class="fa fa-times"></i>
+                                                                                </button>
+
+                                                                        </td>
+                                                                </tr>
+                                                        </tbody>
+                                                </table>
+                                        </div>
+                                </div>
+
+                                <a data-toggle="collapse" data-parent="#accordionEx" href="#collapsePorequirementbudget" aria-expanded="true"
+                                aria-controls="collapsePorequirementbudget">
+                                <h6 class="form-section mt-3 text-primary mb-2 p-2 bg-light">
+                                        <i class="ft-info"></i> Budget Info 
+                                </h6>
+                                </a>
+
+                                <div id="collapsePorequirementbudget" class="collapse position-relative" role="tabpanel">
+                                    <div class="row">
+                                        <ul class="nav nav-pills justify-content-end margin-bottom" *ngFor="let poqutation of porequirmenttab; let i = index">
+                                                <li class="nav-item"> <a href="#poqutation_{{i}}" ng-click="tab=i" class="nav-link" data-toggle="tab" aria-expanded="false">Quotation{{i+1}} </a> </li>
+                                                <!-- <li class="nav-item"> <a href="#navpills2-2" class="nav-link" data-toggle="tab" aria-expanded="false">Tab Two</a> </li>
+                                                <li class="nav-item"> <a href="#navpills2-3" class="nav-link" data-toggle="tab" aria-expanded="true">Tab Three</a> </li> -->
+                                        </ul>
+                                                  <div class="text-right" style="padding-top: 5px;">
+                                                <button class="btn btn-raised btn-outline-danger ml-2" 
+                                                (click)="addQutation()">
+                                                <i class="fa fa-plus"></i> Add Quotation
+                                                 </button>
+                                                </div>
+                                       
+                                                 <div class="tab-content" *ngFor="let poqutation of porequirmenttab; let i = index">
+                                                        <div id="poqutation_{{i}}" *ngIf="tab!=i" class="tab-pane">
+                                                                <div class="row">
+                                                                        <div class="form-group col-md-4">                            
+                                                                                <label for="userinput1">Vendor Type
+                                                                                </label>
+                                                                                <select class="custom-select form-control" [(ngModel)]="poqutation.vendor_type" id="vendortype_{{i}}" name="vendortype_{{i}}"
+                                                                                required="required" tabindex="2" data-validation-required-message="This vendortype required">
+                                                                                    <option value="">Select</option>
+                                                                                    <option value="Existing">Existing</option>
+                                                                                    <option value="New">New</option>                                                                                   
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">                            
+                                                                                <label for="userinput1">Vendor Name
+                                                                                </label>
+                                                                                <select class="custom-select form-control" *ngIf="poqutation.vendor_type=='Existing'" [(ngModel)]="poqutation.vendor_name" (change)="vendorchange(poqutation.vendor_name,i)" id="vendorname_{{i}}" name="vendorname_{{i}}"
+                                                                                required="required" tabindex="2" data-validatiovendor_typen-required-message="This vendorname required">
+                                                                                    <option value="">Select</option>
+                                                                                    <option *ngFor="let vendor of vendorlist" [value]="vendor.vendor_name">{{vendor.vendor_name}}</option>
+                                                                                  </select>
+                                                                                <input type="text" [(ngModel)]="poqutation.vendor_name"*ngIf="poqutation.vendor_type=='New'"
+                                                                                name="vendorname_{{i}}"
+                                                                                 id="vendorname_{{i}}" class="form-control form-control-sm">
+                                                                            </div>
+
+                                                                            <div class="form-group col-md-4">                            
+                                                                                <label for="userinput1">Vendor Code
+                                                                                </label>
+                                                                            <input type="text" [(ngModel)]="poqutation.vendor_code"
+                                                                                name="vendorcode_{{i}}"
+                                                                                 id="vendorcode_{{i}}" class="form-control form-control-sm">
+                                                                            </div>   
+                                                                            <div class="form-group col-md-4">                            
+                                                                                <label for="userinput1">Vendor Location
+                                                                                </label>
+                                                                            <input type="text" [(ngModel)]="poqutation.vendor_location"
+                                                                                name="vendorlocation_{{i}}"
+                                                                                 id="vendorlocation_{{i}}" class="form-control form-control-sm">
+                                                                            </div>  
+                                                                            <div class="form-group col-md-4">                            
+                                                                                <label for="userinput1">Vendor Address
+                                                                                </label>
+                                                                            <input type="text" [(ngModel)]="poqutation.vendor_address"
+                                                                                name="vendoraddress_{{i}}"
+                                                                                 id="vendoraddress_{{i}}" class="form-control form-control-sm">
+                                                                            </div> 
+                                                                            <div class="form-group col-md-4">                            
+                                                                                <label for="userinput1">Vendor GST Number
+                                                                                </label>
+                                                                            <input type="text" [(ngModel)]="poqutation.gst_number"
+                                                                                name="vendorgstno_{{i}}"
+                                                                                 id="vendorgstno_{{i}}" class="form-control form-control-sm">
+                                                                            </div> 
+                                                                            <div class="form-group col-md-4">                            
+                                                                                <label for="userinput1">Vendor Email ID
+                                                                                </label>
+                                                                            <input type="text" [(ngModel)]="poqutation.vendor_emailid"
+                                                                                name="vendoremailid_{{i}}"
+                                                                                 id="vendoremailid_{{i}}" class="form-control form-control-sm">
+                                                                            </div> 
+                                                                            <div class="form-group col-md-4 mb-2">
+                                                                                <div *ngIf="poqutation.quotationfile_name==''">
+                                                                                    <label for="userinput1">Quotation Doc
+                                                                                    </label>
+                                                                                    <input type="file" id="quotationfile_{{i}}"  name="quotationfile_{{i}}"
+                                                                                        (change)="quotationfileupload($event.target.files,i,poqutation)" >
+                                                                                </div>
+                                                                                <div *ngIf="poqutation.quotationfile_name!==''">
+                                                                                    <label for="userinput1">Quotation Doc
+                                                                                    </label>
+                                                                                    <a class="text-primary cursor-pointer" href="{{CS.getUploadedFileNativePath()}}{{poqutation.quotationfile_name}}" id="quotationfile_name_{{i}}"  name="quotationfile_name_{{i}}" target="_blank">{{poqutation.quotationfile_name}}</a>
+                                                                                </div>
+                                                                            </div>
+                                                                </div>                                                       
+                                                                <div class="row">
+                                                                      
+                                                                        <div class="m-0">
+                                                                                <table class="table table-xs table-hover table-bordered nowrap width-per-100 no-footer dataTable">
+                                                                                        <thead>
+                                                                                                <tr class="bg-light-gray2">
+                                                                                                        <th >
+                                                                                                                Material/Service Name
+                                                                                                        </th>
+                                                                                                        <th class="th-sm">
+                                                                                                                Description
+                                                                                                        </th>
+                                                                                                   
+                                                                                                        <th class="th-sm">
+                                                                                                                Quantity
+                                                                                                        </th>
+                                                                                                        <th class="th-sm">
+                                                                                                                Approx Unit Value
+                                                                                                        </th>
+                                                                                                        <th class="th-sm">
+                                                                                                                Approx Total Value
+                                                                                                        </th>
+                                                                                                       
+                                                                                                        <th class="th-sm"  style="text-align: center;">
+                                                                                                                Action
+                                                                                                        </th>
+                                                                                                </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                                <tr
+                                                                                                        *ngFor="let cost of poqutation.quotation; let i = index">
+                                                                                                        <td>  
+                                                                                                                        <input [(ngModel)]="cost.vendor_material_name" class="form-table"
+                                                                                                                         type="text" name="vendor_material_name_{{i}}" />
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                           
+                                                                                                                    <input [(ngModel)]="cost.vendor_line_description" class="form-table"
+                                                                                                                     type="text" name="vendor_line_description_{{i}}" />
+                                                                                                              
+                                                                                                        </td>
+                                                                                                         <td>
+                                                                                                                <input [(ngModel)]="cost.vendor_quantity"
+                                                                                                                class="form-table"     type="text" name="vendor_quantity_{{i}}" autocomplete="off" />
+                                                                                                        </td>
+                                                                                                        <td>                                                                              
+                                                                                                                
+                                                                                                                        <input [(ngModel)]="cost.vendor_unit_value" (keypress)="onlyDecimalNumberKey($event)"
+                                                                                                                        class="form-table"   type="text" name="vendor_unit_value_{{i}}" />
+                                                                                                              
+                                                                                                        </td>
+                                    
+                                                                                                        <td>
+                                                                                                                <input [(ngModel)]="cost.vendor_total_value" class="form-table" (keypress)="onlyDecimalNumberKey($event)" type="text" name="vendor_total_value_{{i}}"/>
+                                                                                                        </td>
+                                                                                                        <td  style="text-align: center;">
+                                                                                                                <button class="btn btn-raised btn-outline-danger ml-2" 
+                                                                                                                        (click)="deletequotationFieldValue(i)">
+                                                                                                                        <i class="fa fa-trash"></i>
+                                                                                                                </button>
+                                    
+                                                                                                        </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                        <td>
+                                                                                                            
+                                                                                                                    <input [(ngModel)]="newpoquotation.vendor_material_name" class="form-table"
+                                                                                                                    type="text" name="vendor_material_name"/>
+                                                                                                           
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                               
+                                                                                                                        <input [(ngModel)]="newpoquotation.vendor_line_description" class="form-table"
+                                                                                                                        type="text" name="delivery_address"/>
+                                                                                                                 
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                                <input [(ngModel)]="newpoquotation.vendor_quantity"
+                                                                                                                class="form-table" type="text" name="vendor_quantity" autocomplete="off" />
+                                                                                               
+                                                                                                        </td>
+                                    
+                                                                                                        <td>
+                                                                                                               
+                                                                                                                        <input [(ngModel)]="newpoquotation.vendor_unit_value" (change)="totalvendorquotation()" (keypress)="onlyDecimalNumberKey($event)"
+                                                                                                                        class="form-table"  type="text" name="vendor_unit_value"/>
+                                                                                                                                                                                                
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                                <input [(ngModel)]="newpoquotation.vendor_total_value" (keypress)="onlyDecimalNumberKey($event)" class="form-table" type="text" name="vendor_total_value"/>
+                                                                                                        </td>
+                                                                                                        <td style="text-align: center;" >
+                                                                                                                <button class="btn btn-raised btn-sm btn-outline-info ml-2"
+                                                                                                                        (click)="addquotationValue(poqutation.quotation)">
+                                                                                                                        <i
+                                                                                                                                class="fa fa-plus"></i>
+                                                                                                                </button>
+                                                                                                                <button class="btn btn-raised btn-sm btn-outline-default ml-2"
+                                                                                                                        title="Clear Data"
+                                                                                                                        (click)="clearquotationFields()">
+                                                                                                                        <i class="fa fa-times"></i>
+                                                                                                                </button>
+                                    
+                                                                                                        </td>
+                                                                                                </tr>
+                                                                                        </tbody>
+                                                                                </table>
+                                                                        </div>
+                                                                </div>
+                                                              
+                                                        </div>
+                                                </div>
+                                     </div>                                  
+                                 </div>
+                                 <div *ngIf="objporeq.requirement_id!=0"> 
+                                 <a data-toggle="collapse" data-parent="#accordionEx" href="#collapsePorequirementprocess" aria-expanded="true"
+                                 aria-controls="collapsePorequirementbudget">
+                                 <h6 class="form-section mt-3 text-primary mb-2 p-2 bg-light">
+                                         <i class="ft-info"></i> Budget Process
+                                 </h6>
+                                 </a>
+                                 <div id="collapsePorequirementprocess" class="collapse position-relative" role="tabpanel">
+                                        <div class="row">
+                                                <div class="form-group col-md-4">    
+                                                <button type="submit" class="btn btn-raised btn-info btn-min-width mr-1 "
+                                                (click)="openComparisonModal()" data-toggle="modal" data-target="#quotation_Modal"><i
+                                                    class="fa fa-check-square-o"></i> Compare Quotation</button>
+                                                </div>
+                                        </div>
+                                        <div class="row">
+                                                <div class="form-group col-md-4">                            
+                                                        <label for="userinput1">Final Vendor Selection
+                                                        </label>
+                                                        <select class="custom-select form-control" [(ngModel)]="objporeq.finalized_vendor" id="vendorname" name="vendorname"
+                                                        required="required" tabindex="2" data-validation-required-message="This vendorname required">
+                                                            <option value="">Select</option>
+                                                            <option *ngFor="let vendor of porequirmenttab" [value]="vendor.vendor_name">{{vendor.vendor_name}}</option>                                                                                  
+                                                        </select>
+                                                </div>     
+                                                <div class="form-group col-md-8 mb-2">                            
+                                                    <label for="userinput1">Comment</label>
+                                                    <textarea class="form-control bg-transparent" [(ngModel)]="objporeq.vendor_selection_reason"
+                                                    name="receivedbenefit" id="receivedbenefit" tabindex="8" maxlength="1200"></textarea>                                         
+                                                </div>                                              
+                                         </div>
+                                         <div class="row" *ngIf="objporeq.is_processed==2">
+                                                <div class="form-group col-md-4 mb-4">
+                                                    <label for="userinput1">Vendor Doc</label>
+                                                        <input type="file"multiple id="vendorfile"  name="vendorfile"
+                                                            (change)="vendorfileupload($event.target.files)" >
+                                                        </div>
+                                         </div>                    
+                                               
+                                </div>
+                            </div>
+
+                                <div class="text-right">
+                                    <button type="button" (click)="cancelEdit()" [hidden]="!editBtnshow"
+                                        class="btn btn-outline-dark mr-1 btn-min-width mb-1">Cancel</button>
+                                    
+                                    <button type="submit" class="btn btn-raised btn-info btn-min-width mr-1 " 
+                                        (click)="SavePRFform()"><i
+                                            class="fa fa-check-square-o"></i> Save</button>     
+                                            <button type="submit" class="btn btn-raised btn-info btn-min-width mr-1 " [disabled]="processPRF"
+                                        (click)="ProcessPRFform()"><i
+                                            class="fa fa-check-square-o"></i>Process To Approve</button>                    
+                                </div>      
+                                </div>
+
+                                <div [hidden]="!boolPoreqList">
+                                    <table id="tableExport" class="display table table-hover table-checkable order-column m-t-20 width-per-100">
+                                        <thead>
+                                            <tr class="bg-light-gray2">
+                                                <th id="fontsize">PRF Number</th>                    
+                                                <th id="fontsize">Requirement Date</th>
+                                                <th id="fontsize">Department</th>
+                                                <th id="fontsize">Purpose</th>
+                                                <th id="fontsize">PurchaseCategory</th>
+                                                <th>Status</th>
+                                                <th id="fontsize" style="text-align: center;">Edit</th>
+                                                <!-- <th id="fontsize" style="text-align: center;">Delete</th> -->
+                                            </tr>
+                                        </thead>
+                    
+                                        <tbody>             
+                    
+                                            <ng-container *ngFor="let porequirement of porequirementdetail">
+                                                <tr>
+                                                    <td>{{porequirement.prf_number}}</td>
+                                                    <td>{{porequirement.requirement_date}}</td>
+                                                    <td>{{porequirement.department}}</td>
+                                                    <td>{{porequirement.purpose}}</td>
+                                                    <td>{{porequirement.purchase_catagory}}</td>          
+                                                    <td><span class="label label-warning">{{porequirement.po_status}}</span></td>                                                                    
+                                                    <td (click)="EditPorequirementdetail(porequirement)">
+                                                        <i class=" fa fa-pencil font-medium-3 mr-2 text-info"></i>
+                                                    </td>
+                                                </tr>
+                                            </ng-container>
+                    
+                                        </tbody>
+                                    </table>
+                    
+                                </div>
+                           
+                            </div>                  
+                 
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+
+<div class="modal fade" id="quotation_Modal" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                        <div class="modal-header">
+                                <h5 class="modal-title" id="quotation_Modal">Quotation Comparison</h5>
+                                <button type="button"
+                                        class="close" data-dismiss="modal" (click)="closemodal()" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>    
+                        <div class="modal-body">                            
+                          <div class="row">
+                             
+                                <div class="form-group col-md-4" *ngFor="let poqutation of porequirmenttab; let i = index">     
+                                <h6 class="modal-title" id="quotation_Modal">Quotation {{i+1}}</h6>
+                                <div class="row quotation">
+                                    <div class="form-group col-md-4">
+                                        <table>
+                                         
+                                        <tr>
+                                            <th class="pad-14">
+                                            <label for="userinput2">Vendor Name</label>
+                                        </th>
+                                        <th class="pad-14">
+                                            {{poqutation.vendor_name}} 
+                                        </th>
+                                    </tr>
+                                 </table>
+                                 </div>                                     
+                                 <div class="form-group col-md-12"> 
+                                        <table class="table table-striped table-bordered">
+                                            <thead>
+                                                    <tr class="bg-light-gray2">
+                                                            <th >
+                                                                    Material/Service Name
+                                                            </th>
+                                                            <th >
+                                                                    Description
+                                                            </th>
+                                                            <th >
+                                                                    Quantity
+                                                            </th>
+                                                            <th >
+                                                                    Approx Unit Value
+                                                            </th>
+                                                            <th>
+                                                                    Approx Total Value
+                                                            </th>
+                                                    </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr
+                                                        *ngFor="let cost of poqutation.quotation; let i = index">
+                                                        <td>                                                                              
+                                                                <label>{{cost.vendor_material_name}}</label>                                                              
+                                                        </td>
+                                                        <td>
+                                                            <label>{{cost.vendor_line_description}}</label>
+                                                              
+                                                        </td>
+                                                         <td>
+                                                            <label>{{cost.vendor_quantity}}</label>
+                                                        </td>
+                                                        <td>                                                                              
+                                                            <label>{{cost.vendor_unit_value}}</label>                                                                    
+                                                        </td>
+
+                                                        <td>
+                                                            <label>{{cost.vendor_total_value}}</label>  
+                                                        </td>                                                      
+                                                </tr>
+                                               
+                                        </tbody>
+                                        </table>
+                                    </div>
+                                    </div>                                      
+                                 </div>                                                              
+                          </div>                        
+                          <div class="modal-footer">
+                        </div>                  
+                      </div>
+                </div> 
+        </div> 
+    </div>

@@ -1,0 +1,145 @@
+<div class="content-wrapper">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <h4 class="page-title">Master</h4>
+                            </li>
+                            <li class="breadcrumb-item bcrumb-1">
+                                <a href="../../Dashboard">
+                                    <i class="fa fa-home"></i> Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">User Master</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row clearfix">
+                <div class="col-12">
+    
+                   
+    
+                    <div class="card">
+                        <form #myform="ngForm">
+                            <div>
+                                <!-- header -->
+                                <h4 class="header d-flex justify-content-between">
+                        
+                                    {{cardTitle}}   
+                                      
+                                    <div class="col-12 text-right">
+                                        <button type="button" class="btn btn-raised btn-info btn-min-width mr-1 mb-1" [hidden]="userview"
+                                            (click)="list();"><i class="ft-package"></i>
+                                            List</button>
+                        
+                                        <button type="button" class="btn btn-raised btn-info btn-min-width mr-1 mb-1"
+                                            [hidden]="!userview" (click)="backlist();"><i class="ft-package"></i>
+                                            Create</button>
+                        
+                                    </div>                             
+                                
+                                </h4>
+                                <!-- header end -->
+                                <div class="body">
+                                   <div *ngIf="!userview">              
+                                    <div class="row">                    
+                                        <div class="form-group col-md-4 mb-2">                            
+                                            <label for="userinput1"> Name
+                                            </label>
+                                            <select class="custom-select form-control" [(ngModel)]="objuser.user_id" (change)="getuserdetails(objuser.user_id)" id="user_id" name="user_id"
+                                            required="required" tabindex="1" data-validation-required-message="This Source Extension is  required">
+                                            <option value="0">Select User</option>
+                                                <option *ngFor="let user of user_list" [value]="user.user_id">{{user.user_name}}</option>                                            
+                                            </select>
+                                        </div>
+                                     
+                                        <div class="form-group col-md-4 mb-2">                            
+                                            <label for="userinput1">User Name
+                                            </label>
+                                             <input type="text" [(ngModel)]="objuser.mail_id"
+                                               name="mail_id" placeholder="User Name"
+                                                id="mail_id" tabindex="2" class="form-control form-control-sm" required="required"
+                                                disabled >
+                                        </div>
+                                        <div class="form-group col-md-4 mb-2">                            
+                                            <label for="userinput1">Department
+                                            </label>
+                                             <input type="text" [(ngModel)]="objuser.department"
+                                               name="depatrment" placeholder="Department"
+                                                id="depatrment" tabindex="3" class="form-control form-control-sm" required="required"
+                                                disabled >
+                                        </div>
+                                        <div class="form-group col-md-4 mb-2">                            
+                                            <label for="userinput1">Reporting Manager
+                                            </label>
+                                             <input type="text" [(ngModel)]="objuser.reporting_manager"
+                                               name="reporting_manager" placeholder="Reporting Manager"
+                                                id="reporting_manager" tabindex="4" class="form-control form-control-sm" required="required"
+                                                disabled >
+                                        </div>
+                                      
+                                     
+                                        </div>
+                                    
+                                    <div class="row">
+                                        <div class=" col-12 text-right">
+                                            <button type="button" (click)="cancelEdit()" [hidden]="!editBtnshow"
+                                                class="btn btn-outline-dark mr-1 btn-min-width mb-1">Cancel</button>
+                                            
+                                            <button type="submit" class="btn btn-raised btn-info btn-min-width mr-1 " [disabled]="!myform.valid"
+                                                (click)="saveuserdetails()"><i
+                                                    class="fa fa-check-square-o"></i> Generate</button>                    
+                                        </div>    
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        
+                     
+                        </form>
+                        
+                   
+                       <div *ngIf="userview">   
+                        <table id="tablesourceExport" class="display table table-hover table-checkable order-column m-t-20 width-per-100 mb-6">
+                            <thead>
+                                <tr class="bg-light-gray2">
+                                    <th id="fontsize">User Name </th>                        
+                                    <th id="fontsize">Mail ID</th>
+                                    <th id="fontsize">Department</th>
+                                    <th id="fontsize">Reporting Manager</th>
+                                       
+                                    <th id="fontsize" style="text-align: center;">Delete</th>                                   
+
+                                  
+                                </tr>
+                            </thead>
+        
+                            <tbody>             
+        
+                                <ng-container *ngFor="let doc of active_list">
+                                    <tr>
+                                        <td>{{doc.user_name}}</td>                        
+                                        <td>{{doc.mail_id}}</td>
+                                        <td>{{doc.department}}</td>
+                                        <td>{{doc.reporting_manager}}</td>                                                                                                                                                           
+                                        <td style="text-align: center;" (click)="deleteuserdetail(doc)">
+                                            <i class=" fa fa-trash font-medium-3 mr-2 text-danger"></i>
+                                        </td>
+                                       
+                                    </tr>
+                                </ng-container>
+        
+                            </tbody>
+                        </table>
+                       </div>                         
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </div>
+    

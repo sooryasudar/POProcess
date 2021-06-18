@@ -1,0 +1,763 @@
+<div class="content-wrapper">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <h4 class="page-title">Reports</h4>
+                            </li>
+                            <li class="breadcrumb-item bcrumb-1">
+                                <a href="../../Dashboard">
+                                    <i class="fa fa-home"></i> Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">Consolidation Report</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row clearfix">
+                <div class="col-12">
+    
+                   
+    
+                    <div class="card">
+                        <form #myform="ngForm">
+                            <div>
+                                <!-- header -->
+                                <h4 class="header d-flex justify-content-between">
+                        
+                                    {{cardTitle}}                                  
+                                
+                                </h4>
+                                <!-- header end -->
+                                <div class="body">
+                                                 
+                                    <div class="row">                    
+                                        <div class="form-group col-md-4 mb-2">
+                                            <label for="userinput2">From Date</label>
+                                            <div class="input-group date">                                            
+                                                <input type="date" class="form-control pull-right" [(ngModel)]="objconsol.from_date" id="datepicker" name="datepicker" 
+                                                required="required" tabindex="1" data-validation-required-message="This From date is required">
+                                              </div>                                             
+                                        </div>
+                                        <div class="form-group col-md-4 mb-2">
+                                            <label for="userinput2">To Date</label>
+                                            <div class="input-group date">                                            
+                                                <input type="date" class="form-control pull-right" [(ngModel)]="objconsol.to_date" id="datepicker" name="datepicker" 
+                                                required="required" tabindex="1" data-validation-required-message="This To date is required">
+                                              </div>                                             
+                                        </div>
+                                        <div class="form-group col-md-4 mb-2" style="padding: 23px;">
+                                            <button type="submit" tabindex="" class="btn btn-sm btn-info  mr-1 mb-1"  
+                                                                                                (click)="searchconsoldationfile();"><i class="fa fa-check-square-o"></i> Search</button>
+                                            </div>
+                                        </div>
+
+              
+                        
+                                   
+                                </div>
+                            </div>
+                        
+                     
+                        </form>
+                        
+                        
+                       <div *ngIf="consolreport">
+                        <div class="text-left" style="padding-top: 5px;">
+                            <button class="btn btn-success btn-outline-danger ml-2" 
+                            (click)="coonsolidationexport()">
+                            <i class="fa fa-file-excel-o"></i> Export All
+                             </button>
+                            </div>
+
+                        <ul class="nav nav-pills justify-content-end margin-bottom">
+                            <li class="nav-item"> <a (click)="tabclick('Tax Invoice')" class="nav-link">Tax Invoice</a> </li>
+                            <li class="nav-item"> <a (click)="tabclick('Pure Agent')" class="nav-link">Pure Agent</a> </li>
+                            <li class="nav-item"> <a (click)="tabclick('Commercial CN & DN')" class="nav-link">Commercial CN & DN</a> </li>
+                            <li class="nav-item"> <a (click)="tabclick('Debit Note')" class="nav-link">Debit Note</a> </li>
+                            <li class="nav-item"> <a (click)="tabclick('Credit Note')" class="nav-link">Credit Note</a> </li>
+                            <li class="nav-item"> <a (click)="tabclick('Bill Of Supply')" class="nav-link">Bill Of Supply</a> </li>
+                    </ul>
+                 <h5>{{Tabval}}</h5>
+               
+                    <div *ngIf="Tabval=='Tax Invoice'">         
+                        <div style="padding-top: 5px;">
+                            <button class="btn btn-success btn-outline-danger ml-2" 
+                            (click)="exportconsolidationexcel(Tabval)">
+                            <i class="fa fa-file-excel-o"></i>
+                             </button>
+                            </div>
+
+                        <ag-grid-angular #agGrid
+                        style="height: 370px;"                           
+                            class="ag-theme-balham"[pagination]="pagination"
+                            [paginationPageSize]="paginationPageSize"
+                           [rowData]="tax_invoice.data" [columnDefs]="tax_invoice.headers">
+                        </ag-grid-angular>
+                                                <!-- <table id="tableExport" class="display table table-hover table-checkable order-column m-t-20 width-per-100">
+                            <thead>                             
+                                    <tr class="bg-light-gray2">                                      
+                                        <th style="width:30px;" id="fontsize" *ngFor="let doc of tax_invoice.headers; let i=index;">{{doc}}</th>   
+                                </tr>
+                            </thead>
+        
+                            <tbody>             
+        
+                                <ng-container *ngFor="let doc of tax_invoice.data">
+                                    <tr>
+                                        <td>{{doc.cs}}</td>
+                                        <td>{{doc.client_name}}</td>
+                                        <td>{{doc.alcs_id}}</td>
+                                        <td>{{doc.corp_id}}</td>
+                                        <td>{{doc.tl_gst_no}}</td>
+                                        <td>{{doc.from_state_code}}</td>
+                                        <td>{{doc.from_state_name}}</td>
+                                        <td>{{doc.to_state_code}}</td>
+                                        <td>{{doc.to_state_name}}</td>
+                                        <td>{{doc.client_address}}</td>
+                                        <td>{{doc.client_gst_no}}</td>
+                                        <td>{{doc.gm_id_gst_code}}</td>
+                                        <td>{{doc.client_sez_exemption}}</td>
+                                        <td>{{doc.invoice_date}}</td>
+                                        <td>{{doc.invoice_time}}</td>
+                                        <td>{{doc.type}}</td>
+                                        <td>{{doc.invoice_number}}</td>
+                                        <td>{{doc.revenue_location}}</td>
+                                        <td>{{doc.invoice_version}}</td>
+                                        <td>{{doc.assc_number}}</td>
+                                        <td>{{doc.insurance_charges}}</td>
+                                        <td>{{doc.labour_welfare_fund}}</td>
+                                        <td>{{doc.edli_admin_charges}}</td>
+                                        <td>{{doc.workman_compensation}}</td>
+                                        <td>{{doc.CTC}}</td>
+                                        <td>{{doc.reimbursement}}</td>
+                                        <td>{{doc.insurance_others_ctc}}</td>
+                                        <td>{{doc.gtl_cost}}</td>
+                                        <td>{{doc.sourcing_fee}}</td>
+                                        <td>{{doc.others}}</td>
+                                        <td>{{doc.loan_recovery}}</td>
+                                        <td>{{doc.advance_recovery}}</td>
+                                        <td>{{doc.imprest_recovery}}</td>
+                                        <td>{{doc.setup_fees}}</td>
+                                        <td>{{doc.pf_service_charges}}</td>
+                                        <td>{{doc.absorption_fee}}</td>
+                                        <td>{{doc.mark_up}}</td>
+                                        <td>{{doc.bbo_cost}}</td>
+                                        <td>{{doc.hiring_cost}}</td>
+                                        <td>{{doc.on_site_cost}}</td>
+                                        <td>{{doc.on_campus_cost}}</td>
+                                        <td>{{doc.online_training_cost}}</td>
+                                        <td>{{doc.imprest_payment}}</td>
+                                        <td>{{doc.loan_payment}}</td>
+                                        <td>{{doc.cand_sourcing_fee}}</td>
+                                        <td>{{doc.dws_markup}}</td>
+                                        <td>{{doc.one_time_revenue}}</td>
+                                        <td>{{doc.recurring_revenue}}</td>
+                                        <td>{{doc.govt_fee}}</td>
+                                        <td>{{doc.associate_charges}}</td>
+                                        <td>{{doc.payroll_fee}}</td>
+                                        <td>{{doc.sourcing_fee_1}}</td>
+                                        <td>{{doc.project_fee}}</td>
+                                        <td>{{doc.other_income}}</td>
+                                        <td>{{doc.asset_transfer}}</td>
+                                        <td>{{doc.deposit_amount}}</td>
+                                        <td>{{doc.contigenct_deduction}}</td>
+                                        <td>{{doc.taxable}}</td>
+                                        <td>{{doc.gross}}</td>
+                                        <td>{{doc.s_tax_14_percentage}}</td>
+                                        <td>{{doc.cess_0_percentage}}</td>
+                                        <td>{{doc.se_cess_0_percentage}}</td>
+                                        <td>{{doc.sb_cess_0_5_percentage}}</td>
+                                        <td>{{doc.kk_cess_0_5_percentage}}</td>
+                                        <td>{{doc.sgst_ugst}}</td>
+                                        <td>{{doc.cgst}}</td>
+                                        <td>{{doc.igst}}</td>
+                                        <td>{{doc.bus_deduction}}</td>
+                                        <td>{{doc.food_deduction}}</td>
+                                        <td>{{doc.other_deduction}}</td>
+                                        <td>{{doc.notice_recovery}}</td>
+                                        <td>{{doc.invoice_total}}</td>
+                                        <td>{{doc.remarks}}</td>
+                                        <td>{{doc.fin_approved_status}}</td>
+                                        <td>{{doc.fin_approved_by}}</td>
+                                        <td>{{doc.hsn}}</td>
+                                        <td>{{doc.place_of_supply}}</td>
+                                        <td>{{doc.is_draft_invoice}}</td>
+                                        <td>{{doc.draft_invoice_number}}</td>
+                                        <td>{{doc.draft_invoice_date}}</td>
+                                        <td>{{doc.supply_type_code}}</td>
+                                        <td>{{doc.document_type}}</td>
+                                        <td>{{doc.irn_number}}</td>
+                                        <td>{{doc.irn_generated_date}}</td>     
+                                    </tr>
+                                </ng-container>
+        
+                            </tbody>
+                        </table> -->
+                        </div>
+                        
+                        <div *ngIf="Tabval=='Pure Agent'">
+                            <div style="padding-top: 5px;">
+                                <button class="btn btn-success btn-outline-danger ml-2" 
+                                (click)="exportconsolidationexcel(Tabval)">
+                                <i class="fa fa-file-excel-o"></i>
+                                 </button>
+                                </div>
+                            <div>
+                                <ag-grid-angular #agGrid
+                        style="height: 370px;"                                
+                                class="ag-theme-balham"[pagination]="pagination"
+                                [paginationPageSize]="paginationPageSize"
+                               [rowData]="pure_agent.data" [columnDefs]="pure_agent.headers">
+                            </ag-grid-angular>
+                                <!-- <table id="tableExport1" class="display table table-hover table-checkable order-column m-t-20 width-per-100">
+                                    <thead>
+                                        <tr class="bg-light-gray2">
+                                            <th id="fontsize" *ngFor="let doc of pure_agent.headers; let i=index;">{{doc}}</th>                                           
+                                        </tr>
+                                    </thead>
+                
+                                    <tbody>             
+                
+                                        <ng-container *ngFor="let doc of pure_agent.data">
+                                            <tr>
+                                                <td>{{doc.cs}}</td>                        
+                                                <td>{{doc.client_name}}</td>
+                                                <td>{{doc.alcs_id}}</td>
+                                                <td>{{doc.sbu}}</td>
+                                                <td>{{doc.date}}</td>
+                                                <td>{{doc.revision_date}}</td>
+                                                <td>{{doc.status}}</td>
+                                                <td>{{doc.invoice_type_1}}</td>
+                                                <td>{{doc.alcs_invoice_type}}</td>
+                                                <td>{{doc.hsn_sac}}</td>
+                                                <td>{{doc.description_of_service}}</td>
+                                                <td>{{doc.invoice_from_state}}</td>
+                                                <td>{{doc.invoice_to_state}}</td>
+                                                <td>{{doc.to_state_gst_no}}</td>
+                                                <td>{{doc.Company}}</td>
+                                                <td>{{doc.state_code}}</td>
+                                                <td>{{doc.invoice_type}}</td>
+                                                <td>{{doc.year}}</td>
+                                                <td>{{doc.number}}</td>
+                                                <td>{{doc.tax_type}}</td>
+                                                <td>{{doc.Invoice_number}}</td>
+                                                <td>{{doc.associate_candidate}}</td>
+                                                <td>{{doc.insurance_charges}}</td>
+                                                <td>{{doc.labour_welfare_fund}}</td>
+                                                <td>{{doc.edli_admin_charges}}</td>
+                                                <td>{{doc.workman_employee_compensation}}</td>
+                                                <td>{{doc.ctc}}</td>
+                                                <td>{{doc.insurance_oa_ctc}}</td>
+                                                <td>{{doc.reimbursement}}</td>
+                                                <td>{{doc.others_cheque_printing_charges}}</td>
+                                                <td>{{doc.loan_payment}}</td>
+                                                <td>{{doc.advance_recovery}}</td>
+                                                <td>{{doc.imprest_recovery}}</td>
+                                                <td>{{doc.setup_fees}}</td>
+                                                <td>{{doc.pf_service_charges}}</td>
+                                                <td>{{doc.absorption_fees}}</td>
+                                                <td>{{doc.mark_up}}</td>
+                                                <td>{{doc.one_time_revenue}}</td>
+                                                <td>{{doc.recurring_revenue}}</td>
+                                                <td>{{doc.govt_fee}}</td>
+                                                <td>{{doc.associate_charges}}</td>
+                                                <td>{{doc.payroll_fee}}</td>
+                                                <td>{{doc.sourcing_fee}}</td>
+                                                <td>{{doc.project_fee}}</td>
+                                                <td>{{doc.other_income}}</td>
+                                                <td>{{doc.bad_debts}}</td>
+                                                <td>{{doc.gross}}</td>
+                                                <td>{{doc.taxable}}</td>
+                                                <td>{{doc.cgst_9_percentage}}</td>
+                                                <td>{{doc.sgst_ugst_9_percentage}}</td>
+                                                <td>{{doc.igst_18_percentage}}</td>
+                                                <td>{{doc.total}}</td>
+                                                <td>{{doc.canteen_food_deduction}}</td>
+                                                <td>{{doc.bus_deduction}}</td>
+                                                <td>{{doc.other_deduction}}</td>
+                                                <td>{{doc.notice_recovery}}</td>
+                                                <td>{{doc.invoice_total}}</td>
+                                                <td>{{doc.claims_uploaded}}</td>
+                                                <td>{{doc.executives}}</td>
+                                                <td>{{doc.interaction_id}}</td>
+                                                <td>{{doc.invoice_reference_number}}</td>
+                                                <td>{{doc.invoice_reference_date}}</td>
+                                                <td>{{doc.multiple_invoice_reference_number}}</td>
+                                                <td>{{doc.comments}}</td>
+                                                <td>{{doc.audit_query_resolutions}}</td>
+                                                <td>{{doc.billing_remarks}}</td>
+                                                <td>{{doc.accpac_upload_code}}</td>
+                                                <td>{{doc.invoice_status}}</td>
+                                                <td>{{doc.uploaded_yes_no}}</td>
+                                                <td>{{doc.source_name}}</td>                                       
+                                            </tr>
+                                        </ng-container>
+                
+                                    </tbody>
+                                </table> -->
+                    </div>
+                </div>
+                <div *ngIf="Tabval=='Commercial CN & DN'">
+                    <div style="padding-top: 5px;">
+                        <button class="btn btn-success btn-outline-danger ml-2" 
+                        (click)="exportconsolidationexcel(Tabval)">
+                        <i class="fa fa-file-excel-o"></i>
+                         </button>
+                        </div>
+                    <div>
+                        <ag-grid-angular #agGrid
+                        style="height: 370px;" 
+                         class="ag-theme-balham"[pagination]="pagination"
+                            [paginationPageSize]="paginationPageSize"
+                       [rowData]="commercial_cn_dn.data" [columnDefs]="commercial_cn_dn.headers">
+                    </ag-grid-angular>
+                        <!-- <table id="tableExport2" class="display table table-hover table-checkable order-column m-t-20 width-per-100">
+                            <thead>
+                                <tr class="bg-light-gray2">
+                                    <th id="fontsize" *ngFor="let doc of commercial_cn_dn.headers; let i=index;">{{doc}}</th>                                           
+                                </tr>
+                            </thead>
+        
+                            <tbody>             
+        
+                                <ng-container *ngFor="let doc of commercial_cn_dn.data">
+                                    <tr>
+                                        <td>{{doc.cs_name}}</td>
+                                        <td>{{doc.client_name}}</td>
+                                        <td>{{doc.alcs_id}}</td>
+                                        <td>{{doc.sbu}}</td>
+                                        <td>{{doc.date}}</td>
+                                        <td>{{doc.revision_date}}</td>
+                                        <td>{{doc.status}}</td>
+                                        <td>{{doc.invoice_type}}</td>
+                                        <td>{{doc.alcs_invoice_type}}</td>
+                                        <td>{{doc.hsn_sac}}</td>
+                                        <td>{{doc.description_of_service}}</td>
+                                        <td>{{doc.invoice_from_state}}</td>
+                                        <td>{{doc.invoice_to_state}}</td>
+                                        <td>{{doc.to_state_gst_no}}</td>
+                                        <td>{{doc.Company}}</td>
+                                        <td>{{doc.state_code}}</td>
+                                        <td>{{doc.invoice_type_1}}</td>
+                                        <td>{{doc.year}}</td>
+                                        <td>{{doc.number}}</td>
+                                        <td>{{doc.tax_type}}</td>
+                                        <td>{{doc.Invoice_number}}</td>
+                                        <td>{{doc.associate_candidate}}</td>
+                                        <td>{{doc.insurance_charges}}</td>
+                                        <td>{{doc.labour_welfare_fund}}</td>
+                                        <td>{{doc.edli_admin_charges}}</td>
+                                        <td>{{doc.workman_employee_compensation}}</td>
+                                        <td>{{doc.ctc}}</td>
+                                        <td>{{doc.insurance_oa_ctc}}</td>
+                                        <td>{{doc.reimbursement}}</td>
+                                        <td>{{doc.pmrpy}}</td>
+                                        <td>{{doc.others_cheque_printing_charges}}</td>
+                                        <td>{{doc.loan_payment}}</td>
+                                        <td>{{doc.advance_recovery}}</td>
+                                        <td>{{doc.imprest_recovery}}</td>
+                                        <td>{{doc.setup_fees}}</td>
+                                        <td>{{doc.pf_service_charges}}</td>
+                                        <td>{{doc.absorption_fees}}</td>
+                                        <td>{{doc.mark_up}}</td>
+                                        <td>{{doc.one_time_revenue}}</td>
+                                        <td>{{doc.recurring_revenue}}</td>
+                                        <td>{{doc.govt_fee}}</td>
+                                        <td>{{doc.associate_charges}}</td>
+                                        <td>{{doc.payroll_fee}}</td>
+                                        <td>{{doc.sourcing_fee}}</td>
+                                        <td>{{doc.project_fee}}</td>
+                                        <td>{{doc.other_income}}</td>
+                                        <td>{{doc.bad_debts}}</td>
+                                        <td>{{doc.gross}}</td>
+                                        <td>{{doc.taxable}}</td>
+                                        <td>{{doc.cgst_9_percentage}}</td>
+                                        <td>{{doc.sgst_ugst_9_percentage}}</td>
+                                        <td>{{doc.igst_18_percentage}}</td>
+                                        <td>{{doc.total}}</td>
+                                        <td>{{doc.canteen_food_deduction}}</td>
+                                        <td>{{doc.bus_deduction}}</td>
+                                        <td>{{doc.other_deduction}}</td>
+                                        <td>{{doc.notice_recovery}}</td>
+                                        <td>{{doc.mobile_deduction}}</td>
+                                        <td>{{doc.id_card_deduction}}</td>
+                                        <td>{{doc.locker_deduction}}</td>
+                                        <td>{{doc.dress_deduction}}</td>
+                                        <td>{{doc.late_coming_deduction}}</td>
+                                        <td>{{doc.contigency_deduction}}</td>
+                                        <td>{{doc.employee_contribution}}</td>
+                                        <td>{{doc.saftey_shoe_deduction}}</td>
+                                        <td>{{doc.amenity_deduction_ledger}}</td>
+                                        <td>{{doc.marriage_gift_deduction}}</td>
+                                        <td>{{doc.permission_deduction}}</td>
+                                        <td>{{doc.welfare_benefit_deduction}}</td>
+                                        <td>{{doc.accommodation_deduction}}</td>
+                                        <td>{{doc.invoice_total}}</td>
+                                        <td>{{doc.claims_uploaded}}</td>
+                                        <td>{{doc.executives}}</td>
+                                        <td>{{doc.interaction_id}}</td>
+                                        <td>{{doc.invoice_reference_number}}</td>
+                                        <td>{{doc.invoice_reference_date}}</td>
+                                        <td>{{doc.multiple_invoice_reference_number}}</td>
+                                        <td>{{doc.comments}}</td>
+                                        <td>{{doc.audit_query_resolutions}}</td>
+                                        <td>{{doc.billing_remarks}}</td>
+                                        <td>{{doc.accpac_upload_code}}</td>
+                                        <td>{{doc.invoice_status}}</td>
+                                        <td>{{doc.uploaded_yes_no}}</td>
+                                        <td>{{doc.source_name}}</td>                                                               
+                                       
+                                    </tr>
+                                </ng-container>
+        
+                            </tbody>
+                        </table> -->
+                    </div>
+                </div>
+                <div *ngIf="Tabval=='Debit Note'">
+                    <div style="padding-top: 5px;">
+                        <button class="btn btn-success btn-outline-danger ml-2" 
+                        (click)="exportconsolidationexcel(Tabval)">
+                        <i class="fa fa-file-excel-o"></i>
+                         </button>
+                        </div>
+                    <div>
+                        <ag-grid-angular #agGrid
+                        style="height: 370px;"                      
+                        class="ag-theme-balham"[pagination]="pagination"
+                        [paginationPageSize]="paginationPageSize"
+                       [rowData]="debit_note.data" [columnDefs]="debit_note.headers">
+                    </ag-grid-angular>
+                        <!-- <table id="tableExport3" class="display table table-hover table-checkable order-column m-t-20 width-per-100">
+                            <thead>
+                                <tr class="bg-light-gray2">
+                                    <th id="fontsize" *ngFor="let doc of debit_note.headers; let i=index;">{{doc}}</th>                                           
+                                </tr>
+                            </thead>
+        
+                            <tbody>             
+        
+                                <ng-container *ngFor="let doc of debit_note.data">
+                                    <tr>
+                                        <td>{{doc.cs}}</td>
+                                        <td>{{doc.client_name}}</td>
+                                        <td>{{doc.alcs_id}}</td>
+                                        <td>{{doc.sbu}}</td>
+                                        <td>{{doc.date}}</td>
+                                        <td>{{doc.revision_date}}</td>
+                                        <td>{{doc.status}}</td>
+                                        <td>{{doc.invoice_type}}</td>
+                                        <td>{{doc.alcs_invoice_code}}</td>
+                                        <td>{{doc.hsn_sac}}</td>
+                                        <td>{{doc.description_of_service}}</td>
+                                        <td>{{doc.invoice_from_state}}</td>
+                                        <td>{{doc.invoice_to_state}}</td>
+                                        <td>{{doc.to_state_gst_no}}</td>
+                                        <td>{{doc.company}}</td>
+                                        <td>{{doc.state_code}}</td>
+                                        <td>{{doc.invoice_type_1}}</td>
+                                        <td>{{doc.year}}</td>
+                                        <td>{{doc.number}}</td>
+                                        <td>{{doc.tax_type}}</td>
+                                        <td>{{doc.debit_note_number}}</td>
+                                        <td>{{doc.associate_candidate}}</td>
+                                        <td>{{doc.insurance_charges}}</td>
+                                        <td>{{doc.labour_welfare_fund}}</td>
+                                        <td>{{doc.edli_admin_charges}}</td>
+                                        <td>{{doc.workman_employee_compensation}}</td>
+                                        <td>{{doc.ctc}}</td>
+                                        <td>{{doc.insurance_oa_ctc}}</td>
+                                        <td>{{doc.reimbursement}}</td>
+                                        <td>{{doc.pmrpy}}</td>
+                                        <td>{{doc.others_cheque_printing_charges}}</td>
+                                        <td>{{doc.loan_payment}}</td>
+                                        <td>{{doc.advance_recovery}}</td>
+                                        <td>{{doc.other_deduction}}</td>
+                                        <td>{{doc.imprest_recovery}}</td>
+                                        <td>{{doc.setup_fees}}</td>
+                                        <td>{{doc.pf_service_charges}}</td>
+                                        <td>{{doc.absorption_fees}}</td>
+                                        <td>{{doc.mark_up}}</td>
+                                        <td>{{doc.dws_mark_up}}</td>
+                                        <td>{{doc.one_time_revenue}}</td>
+                                        <td>{{doc.recurring_revenue}}</td>
+                                        <td>{{doc.govt_fee}}</td>
+                                        <td>{{doc.associate_charges}}</td>
+                                        <td>{{doc.payroll_fee}}</td>
+                                        <td>{{doc.sourcing_fee}}</td>
+                                        <td>{{doc.project_fee}}</td>
+                                        <td>{{doc.other_income}}</td>
+                                        <td>{{doc.bad_debts}}</td>
+                                        <td>{{doc.contigency_deduction}}</td>
+                                        <td>{{doc.gross}}</td>
+                                        <td>{{doc.taxable}}</td>
+                                        <td>{{doc.csgst_9_percentage}}</td>
+                                        <td>{{doc.sgst_ugst_9_percentage}}</td>
+                                        <td>{{doc.igst_18_percentage}}</td>
+                                        <td>{{doc.total}}</td>
+                                        <td>{{doc.canteen_food_deduction}}</td>
+                                        <td>{{doc.bus_deduction}}</td>
+                                        <td>{{doc.other_deduction_1}}</td>
+                                        <td>{{doc.notice_recovery}}</td>
+                                        <td>{{doc.debit_note_total}}</td>
+                                        <td>{{doc.claims_uploaded}}</td>
+                                        <td>{{doc.executives}}</td>
+                                        <td>{{doc.interaction_id}}</td>
+                                        <td>{{doc.invoice_reference_number}}</td>
+                                        <td>{{doc.invoice_reference_date}}</td>
+                                        <td>{{doc.multiple_invoice_reference_number}}</td>
+                                        <td>{{doc.comments}}</td>
+                                        <td>{{doc.audit_query_and_resolutions}}</td>
+                                        <td>{{doc.billing_remarks}}</td>
+                                        <td>{{doc.accpac_upload_code}}</td>
+                                        <td>{{doc.invoice_status}}</td>
+                                        <td>{{doc.uploaded_yes_or_no}}</td>
+                                        <td>{{doc.supply_type_code}}</td>
+                                        <td>{{doc.document_type}}</td>
+                                        <td>{{doc.irn_number}}</td>
+                                        <td>{{doc.crn_generated_date}}</td>
+                                        <td>{{doc.source_name}}</td>                                                       
+                                       
+                                    </tr>
+                                </ng-container>
+        
+                            </tbody>
+                        </table> -->
+                    </div>
+                </div>
+                <div *ngIf="Tabval=='Credit Note'">
+                    <div style="padding-top: 5px;">
+                        <button class="btn btn-success btn-outline-danger ml-2" 
+                        (click)="exportconsolidationexcel(Tabval)">
+                        <i class="fa fa-file-excel-o"></i>
+                         </button>
+                        </div>
+                    <div>
+                        <ag-grid-angular #agGrid
+                        style="height: 370px;"                      
+                            class="ag-theme-balham"[pagination]="pagination"
+                            [paginationPageSize]="paginationPageSize"
+                       [rowData]="credit_note.data" [columnDefs]="credit_note.headers">
+                    </ag-grid-angular>
+                        <!-- <table id="tableExport4" class="display table table-hover table-checkable order-column m-t-20 width-per-100">
+                            <thead>
+                                <tr class="bg-light-gray2">
+                                    <th id="fontsize" *ngFor="let doc of credit_note.headers; let i=index;">{{doc}}</th>                                           
+                                </tr>
+                            </thead>
+        
+                            <tbody>             
+        
+                                <ng-container *ngFor="let doc of credit_note.data">
+                                    <tr>
+                                        <td>{{doc.cs}}</td>
+                                        <td>{{doc.client_name}}</td>
+                                        <td>{{doc.alcs_id}}</td>
+                                        <td>{{doc.sbu}}</td>
+                                        <td>{{doc.date}}</td>
+                                        <td>{{doc.revision_date}}</td>
+                                        <td>{{doc.status}}</td>
+                                        <td>{{doc.invoice_type}}</td>
+                                        <td>{{doc.alcs_invoice_code}}</td>
+                                        <td>{{doc.hsn_sac}}</td>
+                                        <td>{{doc.description_of_service}}</td>
+                                        <td>{{doc.invoice_from_state}}</td>
+                                        <td>{{doc.invoice_to_state}}</td>
+                                        <td>{{doc.to_state_gst_no}}</td>
+                                        <td>{{doc.company}}</td>
+                                        <td>{{doc.state_code}}</td>
+                                        <td>{{doc.invoice_type_1}}</td>
+                                        <td>{{doc.year}}</td>
+                                        <td>{{doc.number}}</td>
+                                        <td>{{doc.tax_type}}</td>
+                                        <td>{{doc.credit_note_number}}</td>
+                                        <td>{{doc.associate_candidate}}</td>
+                                        <td>{{doc.insurance_charges}}</td>
+                                        <td>{{doc.labour_welfare_fund}}</td>
+                                        <td>{{doc.edli_admin_charges}}</td>
+                                        <td>{{doc.workman_employee_compensation}}</td>
+                                        <td>{{doc.ctc}}</td>
+                                        <td>{{doc.insurance_oa_ctc}}</td>
+                                        <td>{{doc.reimbursement}}</td>
+                                        <td>{{doc.pmrpy_refund}}</td>
+                                        <td>{{doc.others_cheque_printing_charges}}</td>
+                                        <td>{{doc.loan_payment}}</td>
+                                        <td>{{doc.advance_recovery}}</td>
+                                        <td>{{doc.other_deduction}}</td>
+                                        <td>{{doc.imprest_recovery}}</td>
+                                        <td>{{doc.setup_fees}}</td>
+                                        <td>{{doc.pf_service_charges}}</td>
+                                        <td>{{doc.absorption_fees}}</td>
+                                        <td>{{doc.mark_up}}</td>
+                                        <td>{{doc.dws_mark_up}}</td>
+                                        <td>{{doc.one_time_revenue}}</td>
+                                        <td>{{doc.recurring_revenue}}</td>
+                                        <td>{{doc.govt_fee}}</td>
+                                        <td>{{doc.associate_charges}}</td>
+                                        <td>{{doc.payroll_fee}}</td>
+                                        <td>{{doc.sourcing_fee}}</td>
+                                        <td>{{doc.project_fee}}</td>
+                                        <td>{{doc.other_income}}</td>
+                                        <td>{{doc.bad_debts}}</td>
+                                        <td>{{doc.contigency_deduction}}</td>
+                                        <td>{{doc.gross}}</td>
+                                        <td>{{doc.taxable}}</td>
+                                        <td>{{doc.csgst_9_percentage}}</td>
+                                        <td>{{doc.sgst_ugst_9_percentage}}</td>
+                                        <td>{{doc.igst_18_percentage}}</td>
+                                        <td>{{doc.total}}</td>
+                                        <td>{{doc.canteen_food_deduction}}</td>
+                                        <td>{{doc.bus_deduction}}</td>
+                                        <td>{{doc.other_deduction_1}}</td>
+                                        <td>{{doc.notice_recovery}}</td>
+                                        <td>{{doc.credit_note_total}}</td>
+                                        <td>{{doc.claims_uploaded}}</td>
+                                        <td>{{doc.executives}}</td>
+                                        <td>{{doc.interaction_id}}</td>
+                                        <td>{{doc.invoice_reference_number}}</td>
+                                        <td>{{doc.invoice_reference_date}}</td>
+                                        <td>{{doc.multiple_invoice_reference_number}}</td>
+                                        <td>{{doc.comments}}</td>
+                                        <td>{{doc.audit_query_and_resolutions}}</td>
+                                        <td>{{doc.billing_remarks}}</td>
+                                        <td>{{doc.accpac_upload_code}}</td>
+                                        <td>{{doc.invoice_status}}</td>
+                                        <td>{{doc.uploaded_yes_or_no}}</td>
+                                        <td>{{doc.supply_type_code}}</td>
+                                        <td>{{doc.document_type}}</td>
+                                        <td>{{doc.irn_number}}</td>
+                                        <td>{{doc.crn_generated_date}}</td>
+                                        <td>{{doc.source_name}}</td>                                                  
+                                       
+                                    </tr>
+                                </ng-container>
+        
+                            </tbody>
+                        </table> -->
+                    </div>
+                </div>       
+                <div *ngIf="Tabval=='Bill Of Supply'">
+                    <div style="padding-top: 5px;">
+                        <button class="btn btn-success btn-outline-danger ml-2" 
+                        (click)="exportconsolidationexcel(Tabval)">
+                        <i class="fa fa-file-excel-o"></i>
+                         </button>
+                        </div>
+                    <div>
+                        <ag-grid-angular #agGrid
+                        style="height: 370px;" 
+                            class="ag-theme-balham"[pagination]="pagination"
+                            [paginationPageSize]="paginationPageSize"
+                       [rowData]="bill_of_supply.data" [columnDefs]="bill_of_supply.headers">
+                    </ag-grid-angular>
+                        <!-- <table id="tableExport5" class="display table table-hover table-checkable order-column m-t-20 width-per-100">
+                            <thead>
+                                <tr class="bg-light-gray2">
+                                    <th id="fontsize" *ngFor="let doc of bill_of_supply.headers; let i=index;">{{doc}}</th>                                           
+                                </tr>
+                            </thead>
+        
+                            <tbody>             
+        
+                                <ng-container *ngFor="let doc of bill_of_supply.data">
+                                    <tr>
+                                        <td>{{doc.cs}}</td>
+                                        <td>{{doc.client_name}}</td>
+                                        <td>{{doc.alcs_id}}</td>
+                                        <td>{{doc.sbu}}</td>
+                                        <td>{{doc.date}}</td>
+                                        <td>{{doc.revision_date}}</td>
+                                        <td>{{doc.status}}</td>
+                                        <td>{{doc.invoice_type}}</td>
+                                        <td>{{doc.alcs_invoice_code}}</td>
+                                        <td>{{doc.hsn_sac}}</td>
+                                        <td>{{doc.description_of_service}}</td>
+                                        <td>{{doc.invoice_from_state}}</td>
+                                        <td>{{doc.invoice_to_state}}</td>
+                                        <td>{{doc.to_state_gst_no}}</td>
+                                        <td>{{doc.company}}</td>
+                                        <td>{{doc.state_code}}</td>
+                                        <td>{{doc.invoice_type_1}}</td>
+                                        <td>{{doc.year}}</td>
+                                        <td>{{doc.number}}</td>
+                                        <td>{{doc.tax_type}}</td>
+                                        <td>{{doc.invoice_number}}</td>
+                                        <td>{{doc.associate_candidate}}</td>
+                                        <td>{{doc.insurance_charges}}</td>
+                                        <td>{{doc.labour_welfare_fund}}</td>
+                                        <td>{{doc.edli_admin_charges}}</td>
+                                        <td>{{doc.workman_employee_compensation}}</td>
+                                        <td>{{doc.ctc}}</td>
+                                        <td>{{doc.insurance_oa_ctc}}</td>
+                                        <td>{{doc.reimbursement}}</td>
+                                        <td>{{doc.others_cheque_printing_charges}}</td>
+                                        <td>{{doc.loan_payment}}</td>
+                                        <td>{{doc.advance_recovery}}</td>
+                                        <td>{{doc.imprest_recovery}}</td>
+                                        <td>{{doc.setup_fees}}</td>
+                                        <td>{{doc.pf_service_charges}}</td>
+                                        <td>{{doc.absorption_fees}}</td>
+                                        <td>{{doc.mark_up}}</td>
+                                        <td>{{doc.dws_mark_up}}</td>
+                                        <td>{{doc.one_time_revenue}}</td>
+                                        <td>{{doc.recurring_revenue}}</td>
+                                        <td>{{doc.govt_fee}}</td>
+                                        <td>{{doc.associate_charges}}</td>
+                                        <td>{{doc.payroll_fee}}</td>
+                                        <td>{{doc.sourcing_fee}}</td>
+                                        <td>{{doc.project_fee}}</td>
+                                        <td>{{doc.other_income}}</td>
+                                        <td>{{doc.asset_transfer}}</td>
+                                        <td>{{doc.gross}}</td>
+                                        <td>{{doc.taxable}}</td>
+                                        <td>{{doc.csgst_9_percentage}}</td>
+                                        <td>{{doc.sgst_ugst_9_percentage}}</td>
+                                        <td>{{doc.igst_18_percentage}}</td>
+                                        <td>{{doc.total}}</td>
+                                        <td>{{doc.canteen_food_deduction}}</td>
+                                        <td>{{doc.bus_deduction}}</td>
+                                        <td>{{doc.other_deduction}}</td>
+                                        <td>{{doc.notice_recovery}}</td>
+                                        <td>{{doc.invoice_total}}</td>
+                                        <td>{{doc.claims_uploaded}}</td>
+                                        <td>{{doc.executives}}</td>
+                                        <td>{{doc.interaction_id}}</td>
+                                        <td>{{doc.invoice_reference_number}}</td>
+                                        <td>{{doc.invoice_reference_date}}</td>
+                                        <td>{{doc.comments}}</td>
+                                        <td>{{doc.audit_query_and_resolutions}}</td>
+                                        <td>{{doc.billing_remarks}}</td>
+                                        <td>{{doc.accpac_upload_code}}</td>
+                                        <td>{{doc.invoice_status}}</td>
+                                        <td>{{doc.uploaded_yes_or_no}}</td>
+                                        <td>{{doc.source_name}}</td>                                             
+                                       
+                                    </tr>
+                                </ng-container>
+        
+                            </tbody>
+                        </table> -->
+                    </div>
+                </div>   
+            </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </div>
+
+    <!-- <div *ngIf="loader" class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+      </div> -->
+      <!-- <div *ngIf="loader" class="d-flex justify-content-center overlay">
+        <div class="spinner-border spinner" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div> -->
+      <ngx-ui-loader></ngx-ui-loader>

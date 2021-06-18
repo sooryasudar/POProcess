@@ -1,0 +1,186 @@
+<div class="content-wrapper">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <h4 class="page-title">Doc Upload</h4>
+                            </li>
+                            <li class="breadcrumb-item bcrumb-1">
+                                <a href="../../Dashboard">
+                                    <i class="fa fa-home"></i> Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">Consolidation Doc Upload</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row clearfix">
+                <div class="col-12">
+    
+                   
+    
+                    <div class="card">
+                        <form #myform="ngForm">
+                            <div>
+                                <!-- header -->
+                                <h4 class="header d-flex justify-content-between">
+                        
+                                    {{cardTitle}}                                  
+                                
+                                </h4>
+                                <!-- header end -->
+                                <div class="body">
+                                    <div>
+                                        
+                                  
+                                        <div class="row">                  
+                                           
+                                            <div class="form-group col-md-4 mb-6">                            
+                                                <label for="userinput1">Sources
+                                                </label>
+                                                <select class="custom-select form-control" [(ngModel)]="objconsoldoc.source_id" id="department" name="department"
+                                                required="required" tabindex="2" data-validation-required-message="This Source required">
+                                                    <option value="0">Select Source</option>
+                                                    <option *ngFor="let source of sourcelist" [value]="source.source_id">{{source.source_name}}</option>
+
+                                                    <!-- <option value="Finance">Finance</option>
+                                                    <option value="Admin">Admin</option>
+                                                    <option value="Logistics">Logistics</option> -->
+                                                </select>
+                                            </div>                                        
+                                          
+                                        </div>    
+                                        <div class="row">
+                                            <div class="form-group col-md-4 mb-2">
+                                                <!-- <div class="wrapper">
+                                            <div class="file-upload"> -->
+                                                <input type="file" id="myfile"  name="myfile" #fileInput
+                                                (change)="upload($event.target.files)" >
+                                                <!-- <i class="fa fa-arrow-up"></i> -->
+                                            <!-- </div>
+                                            </div> -->
+
+                                            </div>
+                                        </div>                  
+                                                    
+                                        <div class="text-right mb-4">
+                                            <!-- <button type="button" (click)="cancelEdit()"
+                                                class="btn btn-outline-dark mr-1 btn-min-width mb-1">Cancel</button> -->
+                                            
+                                            <button type="submit" class="btn btn-raised btn-info btn-min-width mr-1 "
+                                                (click)="saveconsolidationfile()"><i
+                                                    class="fa fa-check-square-o"></i> Upload</button>                    
+                                        </div>                    
+                                    </div>
+                        
+                                   
+                                        <table id="tableExport" class="display table table-hover table-checkable order-column m-t-20 width-per-100">
+                                            <thead>
+                                                <tr class="bg-light-gray2">
+                                                    <th id="fontsize">Source</th>                        
+                                                    <th id="fontsize">File name</th>
+                                                    <th id="fontsize">Size</th>
+                                                    <th id="fontsize">Upload Date</th>
+                                                    <th id="fontsize">File Rowcount</th>
+                                                    <th id="fontsize">Upload status</th>
+                                                    <th>Comments</th>
+                                                    <th>Preview</th>
+                                                  </tr>
+                                            </thead>
+                        
+                                            <tbody>             
+                        
+                                                <!-- <ng-container *ngFor="let doc of consolidationlist"> -->
+                                                    <tr *ngFor="let doc of consolidationlist">
+                                                        <td>{{doc.source_name}}</td>
+                                                        <td>{{doc.file_name}}</td>
+                                                        <td>{{doc.file_size_bytes}}</td>
+                                                        <td>{{doc.upload_date}}</td>
+                                                        <td>{{doc.file_row_count}}</td>
+                                                        <td><span [ngClass]="{'badge-danger':doc.upload_status === 'ERROR','badge-warning':doc.upload_status === 'VALIDATED','badge-success':doc.upload_status === 'SUCCESS'}">
+                                                            {{doc.upload_status}}</span></td>          
+                                                        <td>{{doc.comments}}</td>     
+                                                        <td style="text-align: center;" > <i *ngIf="doc.upload_status === 'SUCCESS'" (click)="previewconsoldoc(doc)" data-toggle="modal" 
+                                                            data-target="#consolidationpreview" class=" fa fa-eye font-medium-3 mr-2 text-info"></i></td>                                                               
+                                                    </tr>
+                                                <!-- </ng-container> -->
+                        
+                                            </tbody>
+                                        </table>
+                                </div>
+                            
+                            </div>
+                         
+                     
+                        </form>
+                      </div>
+
+                    
+                </div>
+            </div>
+
+         
+
+            
+            
+        </div>
+
+        
+    </section>
+
+   
+    </div>
+    
+
+    <div class="modal fade" id="consolidationpreview" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                        <div class="modal-header">
+                                <h5 class="modal-title" id="consolidationpreviewModal">uploaded Consolidation Doc</h5>
+                                <button type="button"
+                                        class="close" data-dismiss="modal" (click)="closemodal()" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+    
+                        <div class="modal-body">
+                          <div class="row">
+                            <!-- style="height: 370px;" -->
+                            <ag-grid-angular                                                        
+                                class="ag-theme-balham"[pagination]="pagination"
+                                [paginationPageSize]="paginationPageSize"
+                               [rowData]="consolidationpreviewlist" [columnDefs]="consolidationpreviewheaderlist">
+                            </ag-grid-angular>
+
+                              <!-- <table id="tableExport1" class="display table table-hover table-checkable order-column m-t-20 width-per-100">
+                                                <thead>
+                                                    
+                                                    <tr class="bg-light-gray2">
+                                                        <th id="fontsize" *ngFor="let doc of consolidationpreviewheaderlist; let i=index;">{{doc}}</th>                        
+                                                       
+                                                    </tr>
+                                                </thead>
+                            
+                                                <tbody>             
+                                               
+                                                        <tr *ngFor="let docs of consolidationpreviewlist; let i=index;">
+                                                          
+                                                            <td *ngFor="let key of docs | keyvalue" > 
+                                                                {{key.value}}
+                                                              </td>
+                                                        </tr>
+                                                       
+                                                </tbody>
+                                            </table> -->
+                          </div>                        
+                          <div class="modal-footer">
+                        </div>                         
+                      </div>    
+                </div> 
+        </div> 
+    </div>
+    <ngx-ui-loader></ngx-ui-loader>

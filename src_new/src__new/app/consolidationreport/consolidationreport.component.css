@@ -1,0 +1,12 @@
+
+
+  .ag-header-cell-label {
+    /* Necessary to allow for text to grow vertically */
+    padding: 0 !important;
+    background: white;
+}
+.ag-header-container{
+  height: 100%;
+  white-space: nowrap;
+  background-color: blue;
+}

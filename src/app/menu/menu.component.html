@@ -1,0 +1,48 @@
+<aside class="main-sidebar">
+  <!-- sidebar-->
+  <section class="sidebar">
+    
+    <!-- sidebar menu-->
+    <ul class="sidebar-menu" data-widget="tree">
+      <li class="user-profile treeview">
+        <a href="index.html">
+          <img src="../../assets/images/avatar/brown.jpg" alt="user">
+            <span>
+              <span class="d-block font-weight-600 font-size-16">{{userdtl.user_name}}</span>
+            </span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-right pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a (click)="logout()"><i class="fa fa-power-off mr-5"></i>Logout</a></li>
+        </ul>
+      </li>
+    
+      <li class="treeview" routerLinkActive="active" *ngFor="let menuitem of menulist.main_models">
+        <a href="#"> 
+          <i class="mdi mdi-view-dashboard"></i>
+          <span>{{menuitem.module_name}}</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-right pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <!-- [routerLink]="'/' + menuitem.url_path" [routerLink]="['/Authlayout/Dashboard']" -->
+          <li *ngFor="let menusubitem of menulist.sub_models">
+            <a  *ngIf="menuitem.main_model_id === menusubitem.main_model_id" [routerLink]="'/Authlayout/' + menusubitem.url_path">
+              <i class="mdi mdi-toggle-switch-off"></i>{{menusubitem.sub_model_name}}</a></li>
+      
+        </ul>
+      </li> 
+      
+      <li>
+        <a (click)="logout()" >
+          <i class="mdi mdi-directions"></i>
+          <span>Log Out</span>
+        </a>
+      </li> 
+      
+    </ul>
+  </section>
+</aside>

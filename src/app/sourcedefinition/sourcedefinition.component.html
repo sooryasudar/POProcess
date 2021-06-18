@@ -1,0 +1,354 @@
+<div class="content-wrapper">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <h4 class="page-title">Master</h4>
+                            </li>
+                            <li class="breadcrumb-item bcrumb-1">
+                                <a href="../../Dashboard">
+                                    <i class="fa fa-home"></i> Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">Source Definition</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row clearfix">
+                <div class="col-12">
+    
+                   
+    
+                    <div class="card">
+                        <form #myform="ngForm">
+                            <div>
+                                <!-- header -->
+                                <h4 class="header d-flex justify-content-between">
+                        
+                                    {{cardTitle}}                                  
+                                    <div class="col-12 text-right">
+                                        <button type="button" class="btn btn-raised btn-info btn-min-width mr-1 mb-1" [hidden]="sourceview"
+                                            (click)="list();"><i class="ft-package"></i>
+                                            List</button>
+                        
+                                        <button type="button" class="btn btn-raised btn-info btn-min-width mr-1 mb-1"
+                                            [hidden]="!sourceview" (click)="backlist();"><i class="ft-package"></i>
+                                            Create</button>
+                        
+                                    </div>   
+                                </h4>
+                                <!-- header end -->
+                                <div class="body">
+                                       
+                                    <div class="row">                    
+                                     
+                                        <div class="form-group col-md-4 mb-6">                            
+                                            <label for="userinput1">Sources
+                                            </label>
+                                            <select class="custom-select form-control"  [(ngModel)]="objsource.source_id" id="sourceid" name="sourceid" (ngModelChange)="sourceselection(objsource.source_id)"
+                                            required="required" tabindex="1" data-validation-required-message="This Source required">
+                                                <option value="0">Select Source</option>
+                                                <option *ngFor="let source of sourcelist" [value]="source.source_id">{{source.source_name}}</option>
+
+                                                <!-- <option value="Finance">Finance</option>
+                                                <option value="Admin">Admin</option>
+                                                <option value="Logistics">Logistics</option> -->
+                                            </select>
+                                        </div>                                       
+                                        </div>
+                                        <div [hidden]="sourceview">
+                                        <div class="row">
+                                            <table id="tableExport" class="display table table-hover table-checkable order-column m-t-20 width-per-100 mb-6">
+                                                <thead>
+                                                    <tr class="bg-light-gray2">
+                                                        <th id="fontsize">Attribute Name </th>                        
+                                                        <th id="fontsize">Attribute Position</th>
+                                                        <th id="fontsize">Attribute Datatype</th>
+                                                        <th id="fontsize">Date Format</th>
+                                                        <th id="fontsize">Validate</th>       
+                                                        <th id="fontsize" >Required</th>     
+                                                        <th id="fontsize" >Unique</th>                                   
+                                                        <th id="fontsize" >Editable</th> 
+                                                        <th id="fontsize" >Action</th> 
+
+                                                    </tr>
+                                                </thead>
+                            
+                                                <tbody>             
+                            
+                                                    <ng-container *ngFor="let doc of sourcedefinitionlist; let i = index">
+                                                        <tr>
+                                                            <td>  <input [(ngModel)]="doc.attribute_name" class="form-table"
+                                                                type="text" name="attribute_name{{i}}" /></td>                        
+                                                            <td><input [(ngModel)]="doc.attribute_position" class="form-table"
+                                                                type="number" name="attribute_position{{i}}" /></td>
+                                                            <td>  <select class="custom-select form-control" [(ngModel)]="doc.attribute_data_type" id="attribute_datatype{{i}}" name="attribute_datatype{{i}}">
+                                                                    <option value="">Select Type</option>
+                                                                    <option value="char">Char</option>
+                                                                    <option value="decimal">Decimal</option>
+                                                                    <option value="date">Date</option>
+                                                                </select></td>
+                                                            <td><select class="custom-select form-control" [(ngModel)]="doc.attribute_date_format" id="date_format{{i}}" name="date_format{{i}}">
+                                                                <option value="">Select Format</option>
+                                                                <option value="No">No</option>
+                                                                <option value="dd/mm/yyyy">dd/mm/yyyy</option>
+                                                                <option value="dd-mm-yyyy">dd-mm-yyyy</option>
+                                                                <option value="dd-mmm-yyyy">dd-mmm-yyyy</option>
+                                                                <!-- <option value="date">Date</option> -->
+                                                            </select></td>
+                                                            <td><select class="custom-select form-control" [(ngModel)]="doc.validate_field" id="validate{{i}}" name="validate{{i}}">
+                                                                <option value="">Select</option>
+                                                                <option value="Yes">Yes</option>
+                                                                <option value="No">No</option>
+                                                                <!-- <option value="date">Date</option> -->
+                                                            </select></td>                                                                                                                                                              
+                                                            <td>
+                                                                <select class="custom-select form-control" [(ngModel)]="doc.required_field" id="required{{i}}" name="required{{i}}">
+                                                                    <option value="">Select</option>
+                                                                    <option value="Yes">Yes</option>
+                                                                    <option value="No">No</option>
+                                                                    <!-- <option value="date">Date</option> -->
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <select class="custom-select form-control" [(ngModel)]="doc.unique_field" id="unique{{i}}" name="unique{{i}}">
+                                                                    <option value="">Select</option>
+                                                                    <option value="Yes">Yes</option>
+                                                                    <option value="No">No</option>
+                                                                    <!-- <option value="date">Date</option> -->
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <select class="custom-select form-control" [(ngModel)]="doc.editable_field" id="editable{{i}}" name="editable{{i}}">
+                                                                    <option value="">Select</option>
+                                                                    <option value="Yes">Yes</option>
+                                                                    <option value="No">No</option>
+                                                                    <!-- <option value="date">Date</option> -->
+                                                                </select>
+                                                            </td>
+                                                            <td  style="text-align: center;">
+                                                                <button class="btn btn-raised btn-outline-danger ml-2" 
+                                                                        (click)="deleteFieldValue(i)">
+                                                                        <i class="fa fa-trash"></i>
+                                                                </button>
+
+                                                        </td>
+                                                        </tr>
+                                                    </ng-container>
+                                                 
+                                                        <tr>
+                                                            <td>  <input [(ngModel)]="newsourcedefinitionlist.attribute_name" class="form-table"
+                                                                type="text" name="attribute_name" /></td>                        
+                                                            <td><input [(ngModel)]="newsourcedefinitionlist.attribute_position" class="form-table"
+                                                                type="number" name="attribute_position" /></td>
+                                                            <td>  <select class="custom-select form-control" [(ngModel)]="newsourcedefinitionlist.attribute_data_type" id="attribute_datatype" name="attribute_datatype">
+                                                                    <option value="">Select Type</option>
+                                                                    <option value="char">Char</option>
+                                                                    <option value="decimal">Decimal</option>
+                                                                    <option value="date">Date</option>
+                                                                </select></td>
+                                                            <td><select class="custom-select form-control" [(ngModel)]="newsourcedefinitionlist.attribute_date_format" id="date_format" name="date_format">
+                                                                <option value="">Select Format</option>
+                                                                <option value="No">No</option>
+                                                                <option value="dd/mm/yyyy">dd/mm/yyyy</option>
+                                                                <option value="dd-mm-yyyy">dd-mm-yyyy</option>
+                                                                <option value="dd-mmm-yyyy">dd-mmm-yyyy</option>
+                                                                <!-- <option value="date">Date</option> -->
+                                                            </select></td>
+                                                            <td><select class="custom-select form-control" [(ngModel)]="newsourcedefinitionlist.validate_field" id="validate" name="validate">
+                                                                <option value="">Select</option>
+                                                                <option value="Yes">Yes</option>
+                                                                <option value="No">No</option>
+                                                                <!-- <option value="date">Date</option> -->
+                                                            </select></td>                                                                                                                                                              
+                                                            <td>
+                                                                <select class="custom-select form-control" [(ngModel)]="newsourcedefinitionlist.required_field" id="required" name="required">
+                                                                    <option value="">Select</option>
+                                                                    <option value="Yes">Yes</option>
+                                                                    <option value="No">No</option>
+                                                                    <!-- <option value="date">Date</option> -->
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <select class="custom-select form-control" [(ngModel)]="newsourcedefinitionlist.unique_field" id="unique" name="unique">
+                                                                    <option value="">Select</option>
+                                                                    <option value="Yes">Yes</option>
+                                                                    <option value="No">No</option>
+                                                                    <!-- <option value="date">Date</option> -->
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <select class="custom-select form-control" [(ngModel)]="newsourcedefinitionlist.editable_field" id="editable" name="editable">
+                                                                    <option value="">Select</option>
+                                                                    <option value="Yes">Yes</option>
+                                                                    <option value="No">No</option>
+                                                                    <!-- <option value="date">Date</option> -->
+                                                                </select>
+                                                            </td>
+                                                            <td style="text-align: center;" >
+                                                                <button class="btn btn-raised btn-sm btn-outline-info ml-2"
+                                                                        (click)="addFieldValue(newsourcedefinitionlist)">
+                                                                        <i
+                                                                                class="fa fa-plus"></i>
+                                                                </button>
+                                                                <button class="btn btn-raised btn-sm btn-outline-default ml-2"
+                                                                        title="Clear Data"
+                                                                        (click)="clearSourceFields()">
+                                                                        <i class="fa fa-times"></i>
+                                                                </button>
+
+                                                        </td>
+                                                        </tr>
+                                                   
+                            
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-12 text-right">
+                                            <button type="button" (click)="cancelEdit()" [hidden]="!editBtnshow"
+                                                class="btn btn-outline-dark mr-1 btn-min-width mb-1">Cancel</button>
+                                            
+                                            <button type="submit" class="btn btn-raised btn-info btn-min-width mr-1 " [disabled]="!myform.valid"
+                                                (click)="savesourcedefinitionlist()"><i
+                                                    class="fa fa-check-square-o"></i> Save</button>                    
+                                        </div>    
+                                    </div>
+                                    </div>
+                                    <div [hidden]="!sourceview">
+                                        <div class="row">
+                                            <table id="tableExport" class="display table table-hover table-checkable order-column m-t-20 width-per-100 mb-6">
+                                                <thead>
+                                                    <tr class="bg-light-gray2">
+                                                        <th id="fontsize">Attribute Name </th>                        
+                                                        <th id="fontsize">Attribute Position</th>
+                                                        <th id="fontsize">Attribute Datatype</th>
+                                                        <th id="fontsize">Date Format</th>
+                                                        <th id="fontsize">Validate</th>       
+                                                        <th id="fontsize" >Required</th>     
+                                                        <th id="fontsize" >Unique</th>                                   
+                                                        <th id="fontsize" >Editable</th> 
+                                                   
+
+                                                    </tr>
+                                                </thead>
+                            
+                                                <tbody>             
+                            
+                                                    <ng-container *ngFor="let doc of sourcedefinitionlist; let i = index">
+                                                        <tr>
+                                                            <td>  {{doc.attribute_name}}</td>                        
+                                                            <td>{{doc.attribute_position}}</td>
+                                                            <td>  <select class="custom-select form-control" [disabled]="!sourceview" [(ngModel)]="doc.attribute_data_type" id="attribute_datatype1{{i}}" name="attribute_datatype1{{i}}">
+                                                                    <option value="">Select Type</option>
+                                                                    <option value="char">Char</option>
+                                                                    <option value="decimal">Decimal</option>
+                                                                    <option value="date">Date</option>
+                                                                </select></td>
+                                                            <td><select class="custom-select form-control" [disabled]="!sourceview" [(ngModel)]="doc.attribute_date_format" id="date_format1{{i}}" name="date_format1{{i}}">
+                                                                <option value="">Select Format</option>
+                                                                <option value="No">No</option>
+                                                                <option value="dd/mm/yyyy">dd/mm/yyyy</option>
+                                                                <option value="dd-mm-yyyy">dd-mm-yyyy</option>
+                                                                <option value="dd-mmm-yyyy">dd-mmm-yyyy</option>
+                                                                <!-- <option value="date">Date</option> -->
+                                                            </select></td>
+                                                            <td><select class="custom-select form-control" [disabled]="!sourceview" [(ngModel)]="doc.validate_field" id="validate1{{i}}" name="validate1{{i}}">
+                                                                <option value="">Select</option>
+                                                                <option value="Yes">Yes</option>
+                                                                <option value="No">No</option>
+                                                                <!-- <option value="date">Date</option> -->
+                                                            </select></td>                                                                                                                                                              
+                                                            <td>
+                                                                <select class="custom-select form-control" [disabled]="!sourceview" [(ngModel)]="doc.required_field" id="required1{{i}}" name="required1{{i}}">
+                                                                    <option value="">Select</option>
+                                                                    <option value="Yes">Yes</option>
+                                                                    <option value="No">No</option>
+                                                                    <!-- <option value="date">Date</option> -->
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <select class="custom-select form-control" [disabled]="!sourceview" [(ngModel)]="doc.unique_field" id="unique1{{i}}" name="unique1{{i}}">
+                                                                    <option value="">Select</option>
+                                                                    <option value="Yes">Yes</option>
+                                                                    <option value="No">No</option>
+                                                                    <!-- <option value="date">Date</option> -->
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <select class="custom-select form-control" [disabled]="!sourceview" [(ngModel)]="doc.editable_field" id="editable1{{i}}" name="editable1{{i}}">
+                                                                    <option value="">Select</option>
+                                                                    <option value="Yes">Yes</option>
+                                                                    <option value="No">No</option>
+                                                                    <!-- <option value="date">Date</option> -->
+                                                                </select>
+                                                            </td>
+                                                           
+                                                        </tr>
+                                                    </ng-container>
+                                                 
+                                                 
+                                                   
+                            
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 text-right">
+                                               <button type="submit" class="btn btn-raised btn-info btn-min-width mr-1 " 
+                                                    (click)="editsourcedefinitionlist()"><i
+                                                        class="fa fa-check-square-o"></i> Edit</button>                    
+                                            </div>    
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        
+                     
+                        </form>
+                        
+                   
+                       <div *ngIf="sourcedefinitionview">
+                        <table id="tableExport" class="display table table-hover table-checkable order-column m-t-20 width-per-100">
+                            <thead>
+                                <tr class="bg-light-gray2">
+                                    <th id="fontsize">Source Name </th>                        
+                                    <th id="fontsize">Source Extension</th>
+                                    <th id="fontsize">Sheet Name</th>
+                                    <th id="fontsize">Column Start Row</th>
+                                    <th id="fontsize">Password Protected</th>                                   
+                                  
+                                </tr>
+                            </thead>
+        
+                            <tbody>             
+        
+                                <ng-container *ngFor="let doc of sourcelist">
+                                    <tr>
+                                        <td>{{doc.source_name}}</td>                        
+                                        <td>{{doc.source_extension}}</td>
+                                        <td>{{doc.sheet_name}}</td>
+                                        <td>{{doc.column_start_row}}</td>
+                                        <td>{{doc.password_protected}}</td>                                                                                                                        
+                                       
+                                    </tr>
+                                </ng-container>
+        
+                            </tbody>
+                        </table>
+                       </div>                         
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </div>
+    
